@@ -1,0 +1,17 @@
+This Library will help you on creating fuzzy applications with fuzzysets and rules. You can use PyFuzzyLib in order to build a fuzzy inference engine.
+
+To install the package, you have to use this command:
+GNU/Linux: sudo python setup.py install
+Others: python setup.py install
+
+Otherwise just copy the pyfuzzylib folder into your python's site-packages directory
+
+Then you will be able to use this library with your python interpreter
+using this command at the beginning of your scripts.
+
+-------------------------------------
+from pyfuzzylib.engine import *
+-------------------------------------
+
+for more informations, contact us:
+http://sourceforge.net/projects/pyfuzzylib/

@@ -1,0 +1,78 @@
+# depslib dependency file v1.0
+1597303750 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\defuzzification.c
+	<stdlib.h>
+	"defuzzification.h"
+	"cstring.h"
+	"clist.h"
+
+1597329096 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\main.c
+	<stdio.h>
+	<stdlib.h>
+	"cstring.h"
+	"clist.h"
+	"cdict.h"
+	"defuzzification.h"
+	"aggreagation.h"
+	"variables.h"
+
+1597328259 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\variables.c
+	<stdlib.h>
+	<math.h>
+	"clist.h"
+	"cdict.h"
+	"cstring.h"
+	"variables.h"
+
+1596849989 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\string.c
+	<stdio.h>
+	"string.h"
+
+1596849952 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\string.h
+	<stdio.h>
+
+1597325029 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\cstring.c
+	<stdio.h>
+	<stdlib.h>
+	"cstring.h"
+
+1597324916 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\cstring.h
+
+1597305238 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\defuzzification.h
+	"cstring.h"
+	"cdict.h"
+	"variables.h"
+
+1597329061 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\cdict.c
+	<stdlib.h>
+	"cdict.h"
+	"cstring.h"
+
+1597323035 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\cdict.h
+	"cstring.h"
+	"clist.h"
+
+1597319069 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\variables.h
+	"cstring.h"
+	"clist.h"
+	"cdict.h"
+
+1597303836 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\clist.h
+
+1597325047 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\clist.c
+	<stdio.h>
+	<stdlib.h>
+	"clist.h"
+	"cstring.h"
+
+1597303958 source:c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\aggreagation.c
+	"cstring.h"
+	"clist.h"
+	"cdict.h"
+	"aggreagation.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1597303923 c:\users\lenovo\desktop\git\fuzzy-logic-engine\c\fuzzy_logic_engine\aggreagation.h
+	"cstring.h"
+

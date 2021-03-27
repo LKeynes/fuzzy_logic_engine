@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="fuzzy_logic_engine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/fuzzy_logic_engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/fuzzy_logic_engine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="aggreagation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="aggreagation.h" />
+		<Unit filename="cdict.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cdict.h" />
+		<Unit filename="clist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="clist.h" />
+		<Unit filename="cstring.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cstring.h" />
+		<Unit filename="defuzzification.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="defuzzification.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="variables.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="variables.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
