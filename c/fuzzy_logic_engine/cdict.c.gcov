@@ -1,0 +1,488 @@
+        -:    0:Source:cdict.c
+        -:    0:Programs:7
+        -:    1:#include <stdlib.h>
+        -:    2:#include "cdict.h"
+        -:    3:#include "cstring.h"
+        -:    4:
+        2:    5:dnode * InitDnode( void )
+        -:    6:{
+        2:    7:    dnode * self = malloc( sizeof(dnode) );
+        -:    8:
+        2:    9:    self->degree = -1;
+        2:   10:    self->List = NULL;
+        2:   11:    self->name = NULL;
+        2:   12:    self->next = NULL;
+        -:   13:
+        2:   14:    return self;
+        -:   15:}
+        -:   16:
+    #####:   17:void FreeDnode( dnode * dptr )
+        -:   18:{
+    #####:   19:    free(dptr);
+    #####:   20:    dptr = NULL;
+    #####:   21:}
+        -:   22:
+        2:   23:void SetDnodeValues( dnode * self, cstring * name, clist * values )
+        -:   24:{
+        2:   25:    self->name = name;
+        2:   26:    self->List = values;
+        2:   27:    self->degree = -1;
+        2:   28:}
+        -:   29:
+    #####:   30:void SetDnodeDegree( dnode * self, cstring * name, float degree )
+        -:   31:{
+    #####:   32:    self->name = name;
+    #####:   33:    FreeClist(self->List);
+    #####:   34:    self->List = NULL;
+    #####:   35:    self->degree = degree;
+    #####:   36:}
+        -:   37:
+        2:   38:cdict * InitCdict( void )
+        -:   39:{
+        2:   40:    cdict * self = malloc( sizeof(cdict) );
+        -:   41:
+        2:   42:    self->count = 0;
+        2:   43:    self->first = NULL;
+        -:   44:
+        2:   45:    return self;
+        -:   46:}
+        -:   47:
+    #####:   48:void FreeCdict( cdict * cptr )
+        -:   49:{
+    #####:   50:    dnode * sptr = NULL;
+    #####:   51:    dnode * next = NULL;
+        -:   52:
+    #####:   53:    if ( cptr != NULL )
+        -:   54:    {
+    #####:   55:        sptr = cptr->first;
+    #####:   56:        while ( sptr != NULL )
+        -:   57:        {
+    #####:   58:            next = sptr->next;
+    #####:   59:            FreeDnode(sptr);
+    #####:   60:            sptr = next;
+        -:   61:        }
+    #####:   62:        free(cptr);
+    #####:   63:        cptr = NULL;
+        -:   64:    }
+    #####:   65:    return ;
+        -:   66:}
+        -:   67:
+        2:   68:void AddDnode( cdict * self, dnode * dk )
+        -:   69:{
+        2:   70:    dnode * cur = NULL;
+        2:   71:    dnode * next = NULL;
+        -:   72:
+        2:   73:    cur = self->first;
+        2:   74:    if ( cur == NULL )
+        2:   75:        self->first = dk;
+        -:   76:    else
+        -:   77:    {
+    #####:   78:        cur = FindDnode( self, CstrtoStr(dk->name) );
+    #####:   79:        if ( cur != NULL )
+        -:   80:        {
+    #####:   81:            SetDnodeValues( cur, dk->name, dk->List );
+    #####:   82:            return ;
+        -:   83:        }
+    #####:   84:        cur = self->first;
+    #####:   85:        next = cur->next;
+    #####:   86:        while ( next != NULL )
+        -:   87:        {
+    #####:   88:            cur = next;
+    #####:   89:            next = cur->next;
+        -:   90:        }
+    #####:   91:        cur->next = dk;
+        -:   92:    }
+        2:   93:    self->count++;
+        -:   94:}
+        -:   95:
+    #####:   96:dnode * DelDnode( cdict * self, int place )
+        -:   97:{
+    #####:   98:    dnode * cur = NULL;
+    #####:   99:    int length = -1;
+    #####:  100:    int i = 1;
+    #####:  101:    dnode * dptr = NULL;
+    #####:  102:    dnode * tmpNode = NULL;
+        -:  103:
+    #####:  104:    if ( self == NULL )
+    #####:  105:        return NULL;
+        -:  106:
+    #####:  107:    cur = self->first;
+    #####:  108:    length = self->count;
+    #####:  109:    if ( cur == NULL )
+    #####:  110:        return NULL;
+    #####:  111:    if ( length < place )
+    #####:  112:        return NULL;
+        -:  113:
+    #####:  114:    if ( place == 1 )
+        -:  115:    {
+    #####:  116:        tmpNode = cur->next;
+    #####:  117:        cur->next = NULL;
+    #####:  118:        self->first = tmpNode;
+    #####:  119:        self->count -= 1;
+    #####:  120:        return cur;
+        -:  121:    }
+    #####:  122:    while ( i + 1 < place )
+        -:  123:    {
+    #####:  124:        cur = cur->next;
+    #####:  125:        i++;
+        -:  126:    }
+    #####:  127:    tmpNode = cur->next;
+    #####:  128:    cur->next = tmpNode->next;
+    #####:  129:    tmpNode->next = NULL;
+    #####:  130:    dptr = tmpNode;
+    #####:  131:    self->count -= 1;
+    #####:  132:    return dptr;
+        -:  133:}
+        -:  134:
+    #####:  135:dnode * FindDnode( cdict * self, char * name )
+        -:  136:{
+    #####:  137:    char * source = name;
+        -:  138:
+    #####:  139:    cstring * s = NULL;
+    #####:  140:    int i = 0;
+    #####:  141:    snode * sptr = NULL;
+    #####:  142:    snode * cur1 = NULL;
+        -:  143:
+    #####:  144:    s = malloc( sizeof(cstring) );
+    #####:  145:    if ( source == NULL )
+        -:  146:    {
+    #####:  147:        s->first = NULL;
+    #####:  148:        s->count = 0;
+        -:  149:    }
+        -:  150:    else
+        -:  151:    {
+    #####:  152:        sptr = InitSnode(source[0]);
+    #####:  153:        s->first = cur1 = sptr;
+    #####:  154:        for ( i = 1; source[i] != '\0'; i++ )
+        -:  155:        {
+    #####:  156:            sptr = InitSnode(source[i]);
+    #####:  157:            cur1->next = sptr;
+    #####:  158:            cur1 = sptr;
+        -:  159:        }
+    #####:  160:        s->count = i;
+        -:  161:    }
+        -:  162:
+    #####:  163:    cstring * str = s;
+        -:  164:
+    #####:  165:    dnode * cur = NULL;
+    #####:  166:    dnode * next = NULL;
+        -:  167:
+    #####:  168:    cur = self->first;
+    #####:  169:    while ( cur != NULL )
+        -:  170:    {
+    #####:  171:        next = cur->next;
+    #####:  172:        if ( !Cstrcmp(cur->name, str) )
+        -:  173:        {
+    #####:  174:            FreeCstring( &str );
+    #####:  175:            return cur;
+        -:  176:        }
+    #####:  177:        cur = next;
+        -:  178:    }
+    #####:  179:    FreeCstring( &str );
+        -:  180:
+    #####:  181:    return NULL;
+        -:  182:}
+        -:  183:
+        2:  184:char * GetCdict( cdict * self )
+        -:  185:{
+        2:  186:    cstring * cstr = InitCstring("{");
+        2:  187:    dnode * dptr = NULL;
+        2:  188:    char * str = NULL;
+        2:  189:    dnode * dptrNext = NULL;
+        2:  190:    float dptrDegree = 0;
+        2:  191:    cstring * dptrName = NULL;
+        2:  192:    clist * dptrList = NULL;
+        -:  193:
+        2:  194:    if ( self->count > 0 )
+        -:  195:    {
+        2:  196:        dptr = self->first;
+        6:  197:        while ( dptr != NULL )
+        -:  198:        {
+        2:  199:            dptrNext = dptr->next;
+        2:  200:            dptrName = dptr->name;
+        2:  201:            dptrDegree = dptr->degree;
+        2:  202:            dptrList = dptr->List;
+        -:  203:
+        2:  204:            Cstradd( &cstr, "\"" );
+        2:  205:            Cstradd( &cstr, CstrtoStr(dptrName) );
+        2:  206:            Cstradd( &cstr, "\"" );
+        2:  207:            Cstradd( &cstr, ": " );
+        2:  208:            if ( dptrDegree != -1 )
+    #####:  209:                Cstradd( &cstr, NumtoStr(dptrDegree) );
+        -:  210:            else
+        2:  211:                Cstradd( &cstr, GetClist(dptrList) );
+        2:  212:            if ( dptrNext != NULL )
+    #####:  213:                Cstradd( &cstr, ", " );
+        2:  214:            dptr = dptrNext;
+        -:  215:        }
+        -:  216:    }
+        2:  217:    Cstradd( &cstr, "}" );
+        2:  218:    str = CstrtoStr( cstr );
+        2:  219:    FreeCstring( &cstr );
+        -:  220:
+        2:  221:    return str;
+        -:  222:}
+        -:  223:
+        3:  224:cdictnode * InitCdictnode( void )
+        -:  225:{
+        3:  226:    cdictnode * self = malloc( sizeof(cdictnode) );
+        3:  227:    self->dict = NULL;
+        3:  228:    self->key = NULL;
+        3:  229:    self->name = NULL;
+        3:  230:    self->next = NULL;
+        3:  231:    return self;
+        -:  232:}
+        -:  233:
+    #####:  234:void FreeCdictnode( cdictnode * self )
+        -:  235:{
+    #####:  236:    FreeCdict(self->dict);
+    #####:  237:    FreeCstring(&(self->key));
+    #####:  238:    FreeCstring(&(self->name));
+    #####:  239:    free(self);
+    #####:  240:    self = NULL;
+    #####:  241:}
+        -:  242:
+    #####:  243:void SetCdictnode( cdictnode * self, cdict * dict )
+        -:  244:{
+    #####:  245:    self->dict = dict;
+    #####:  246:}
+        -:  247:
+        3:  248:void SetCdictnodeDict( cdictnode * self, cstring * key, cdict * dict, cstring * name )
+        -:  249:{
+        3:  250:    self->key = key;
+        3:  251:    self->dict = dict;
+        3:  252:    self->name = name;
+        3:  253:}
+        -:  254:
+    #####:  255:cdictlist * InitCdictlist( void )
+        -:  256:{
+    #####:  257:    cdictlist * self = malloc( sizeof(cdictlist) );
+    #####:  258:    self->first = NULL;
+    #####:  259:    self->count = 0;
+    #####:  260:    return self;
+        -:  261:}
+        -:  262:
+    #####:  263:void FreeCdictlist( cdictlist * self )
+        -:  264:{
+    #####:  265:    cdictnode * cur = NULL;
+    #####:  266:    cdictnode * next = NULL;
+        -:  267:
+    #####:  268:    if ( self != NULL )
+        -:  269:    {
+    #####:  270:        cur = self->first;
+    #####:  271:        while ( cur != NULL )
+        -:  272:        {
+    #####:  273:            next = cur->next;
+    #####:  274:            FreeCdictnode(cur);
+    #####:  275:            cur = next;
+        -:  276:        }
+    #####:  277:        free(self);
+    #####:  278:        self = NULL;
+        -:  279:    }
+    #####:  280:    return ;
+        -:  281:}
+        -:  282:
+    #####:  283:void CdictlistAddCdictnode( cdictlist * self, cdictnode * dictnode )
+        -:  284:{
+    #####:  285:    cdictnode * cur = NULL;
+        -:  286:
+    #####:  287:    cur = self->first;
+    #####:  288:    if ( cur == NULL )
+    #####:  289:        self->first = dictnode;
+        -:  290:    else
+        -:  291:    {
+    #####:  292:        while ( cur->next != NULL )
+    #####:  293:            cur = cur->next;
+    #####:  294:        cur->next = dictnode;
+        -:  295:    }
+    #####:  296:    self->count++;
+    #####:  297:}
+        -:  298:
+    #####:  299:void CdictlistSort( cdictlist * self )
+        -:  300:{
+    #####:  301:    cdictnode * start = NULL;
+    #####:  302:    cdictnode * cur = NULL;
+    #####:  303:    cdictnode * temp = NULL;
+    #####:  304:    cdict * dict = NULL;
+    #####:  305:    cstring * name = NULL;
+        -:  306:
+    #####:  307:    start = self->first;
+    #####:  308:    if ( start == NULL )
+    #####:  309:        return ;
+    #####:  310:    while ( start->next != NULL )
+        -:  311:    {
+    #####:  312:        cur = start;
+    #####:  313:        temp = NULL;
+    #####:  314:        dict = cur->dict;
+    #####:  315:        name = dict->first->name;
+    #####:  316:        while ( cur != NULL )
+        -:  317:        {
+    #####:  318:            if ( Cstrcmp(cur->dict->first->name, name) < 0 )
+        -:  319:            {
+    #####:  320:                temp = cur;
+    #####:  321:                dict = temp->dict;
+    #####:  322:                name = temp->dict->first->name;
+        -:  323:            }
+    #####:  324:            cur = cur->next;
+        -:  325:        }
+    #####:  326:        if ( temp != NULL )
+        -:  327:        {
+    #####:  328:            temp->dict = start->dict;
+    #####:  329:            start->dict = dict;
+        -:  330:        }
+    #####:  331:        start = start->next;
+        -:  332:    }
+        -:  333:}
+        -:  334:
+    #####:  335:char * GetCdictlist( cdictlist * self )
+        -:  336:{
+    #####:  337:    char * source = "[";
+        -:  338:
+    #####:  339:    cstring * str1 = NULL;
+    #####:  340:    int i = 0;
+    #####:  341:    snode * sptr = NULL;
+    #####:  342:    snode * cur = NULL;
+        -:  343:
+    #####:  344:    str1 = malloc( sizeof(cstring) );
+    #####:  345:    if ( source == NULL )
+        -:  346:    {
+    #####:  347:        str1->first = NULL;
+    #####:  348:        str1->count = 0;
+        -:  349:    }
+        -:  350:    else
+        -:  351:    {
+    #####:  352:        sptr = InitSnode(source[0]);
+    #####:  353:        str1->first = cur = sptr;
+    #####:  354:        for ( i = 1; source[i] != '\0'; i++ )
+        -:  355:        {
+    #####:  356:            sptr = InitSnode(source[i]);
+    #####:  357:            cur->next = sptr;
+    #####:  358:            cur = sptr;
+        -:  359:        }
+    #####:  360:        str1->count = i;
+        -:  361:    }
+        -:  362:
+    #####:  363:    cstring * cstr = str1;
+        -:  364:
+    #####:  365:    cdictnode * dptr = NULL;
+    #####:  366:    char * str = NULL;
+    #####:  367:    cdictnode * dptrNext = NULL;
+    #####:  368:    cdict * dptrDict = NULL;
+        -:  369:
+    #####:  370:    if ( self->count > 0 )
+        -:  371:    {
+    #####:  372:        dptr = self->first;
+    #####:  373:        while ( dptr != NULL )
+        -:  374:        {
+    #####:  375:            dptrNext = dptr->next;
+    #####:  376:            dptrDict = dptr->dict;
+        -:  377:
+    #####:  378:            Cstradd( &cstr, GetCdict(dptrDict) );
+    #####:  379:            if ( dptrNext != NULL )
+    #####:  380:                Cstradd( &cstr, ", " );
+    #####:  381:            dptr = dptrNext;
+        -:  382:        }
+        -:  383:    }
+    #####:  384:    Cstradd( &cstr, "]" );
+    #####:  385:    str = CstrtoStr( cstr );
+    #####:  386:    FreeCstring( &cstr );
+        -:  387:
+    #####:  388:    return str;
+        -:  389:}
+        -:  390:
+        1:  391:cdictdict * InitCdictdict( void )
+        -:  392:{
+        1:  393:    cdictdict * self = malloc( sizeof(cdictdict) );
+        1:  394:    self->first = NULL;
+        1:  395:    self->count = 0;
+        1:  396:    return self;
+        -:  397:}
+        -:  398:
+        3:  399:void CdictdictAddCdictnode( cdictdict * self, cdictnode * ptr )
+        -:  400:{
+        3:  401:    cdictnode * cur = self->first;
+        3:  402:    cdictnode * curNext = NULL;
+        -:  403:
+        3:  404:    if ( cur == NULL )
+        1:  405:        self->first = ptr;
+        -:  406:    else
+        -:  407:    {
+        2:  408:        curNext = cur->next;
+        4:  409:        while ( curNext != NULL )
+        -:  410:        {
+        1:  411:            cur = curNext;
+        1:  412:            curNext = cur->next;
+        -:  413:        }
+        2:  414:        cur->next = ptr;
+        -:  415:    }
+        3:  416:    self->count++;
+        3:  417:}
+        -:  418:
+        1:  419:char * GetCdictdict( cdictdict * self )
+        -:  420:{
+        1:  421:    char * source = "{";
+        -:  422:
+        1:  423:    cstring * str1 = NULL;
+        1:  424:    int i = 0;
+        1:  425:    snode * sptr = NULL;
+        1:  426:    snode * cur = NULL;
+        -:  427:
+        1:  428:    str1 = malloc( sizeof(cstring) );
+        1:  429:    if ( source == NULL )
+        -:  430:    {
+    #####:  431:        str1->first = NULL;
+    #####:  432:        str1->count = 0;
+        -:  433:    }
+        -:  434:    else
+        -:  435:    {
+        1:  436:        sptr = InitSnode(source[0]);
+        1:  437:        str1->first = cur = sptr;
+        1:  438:        for ( i = 1; source[i] != '\0'; i++ )
+        -:  439:        {
+    #####:  440:            sptr = InitSnode(source[i]);
+    #####:  441:            cur->next = sptr;
+    #####:  442:            cur = sptr;
+        -:  443:        }
+        1:  444:        str1->count = i;
+        -:  445:    }
+        -:  446:
+        1:  447:    cstring * cstr = str1;
+        -:  448:
+        1:  449:    cdictnode * dptr = NULL;
+        1:  450:    char * str = NULL;
+        1:  451:    cstring * dptrKey = NULL;
+        1:  452:    cstring * dptrName = NULL;
+        1:  453:    cdict * dptrDict = NULL;
+        1:  454:    cdictnode * dptrNext = NULL;
+        -:  455:
+        1:  456:    if ( self->count > 0 )
+        -:  457:    {
+        1:  458:        dptr = self->first;
+        7:  459:        while ( dptr != NULL )
+        -:  460:        {
+        3:  461:            dptrKey = dptr->key;
+        3:  462:            dptrName = dptr->name;
+        3:  463:            dptrDict = dptr->dict;
+        3:  464:            dptrNext = dptr->next;
+        -:  465:
+        3:  466:            Cstradd( &cstr, CstrtoStr(dptrKey) );
+        3:  467:            Cstradd( &cstr, ": " );
+        3:  468:            if ( dptrDict != NULL )
+        2:  469:                Cstradd( &cstr, GetCdict(dptrDict) );
+        -:  470:            else
+        -:  471:            {
+        1:  472:                Cstradd( &cstr, "\"" );
+        1:  473:                Cstrcon( &cstr, dptrName );
+        1:  474:                Cstradd( &cstr, "\"" );
+        -:  475:            }
+        3:  476:            if ( dptrNext != NULL )
+        2:  477:                Cstradd( &cstr, ", " );
+        3:  478:            dptr = dptrNext;
+        -:  479:        }
+        -:  480:    }
+        1:  481:    Cstradd( &cstr, "}" );
+        1:  482:    str = CstrtoStr( cstr );
+        1:  483:    FreeCstring( &cstr );
+        -:  484:
+        1:  485:    return str;
+        -:  486:}

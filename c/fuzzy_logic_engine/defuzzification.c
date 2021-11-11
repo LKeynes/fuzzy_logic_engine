@@ -22,7 +22,35 @@ void FreeDefuzzyMethod( DefuzzyMethod * self )
 DefuzzyCenterOfGravity * InitDefuzzyCenterOfGravity( void )
 {
     DefuzzyCenterOfGravity * self = malloc( sizeof(DefuzzyCenterOfGravity) );
-    self->description = InitCstring("Uses center of gravity to define a crisp value for the fuzzy variable");
+
+    char * source = "Uses center of gravity to define a crisp value for the fuzzy variable";
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->description = str;
+
     self->type = InitCstring("CENTER OF GRAVITY");
     return self;
 }

@@ -11,7 +11,35 @@ Fuzzyset * InitFuzzyset( clist * values, char * name  )
 {
     Fuzzyset * self = malloc( sizeof(Fuzzyset) );
     self->values = values;
-    self->name = InitCstring( name );
+
+    char * source = name;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->name = str;
+
     return self;
 }
 
@@ -31,7 +59,35 @@ cdict * getDictOfFuzzyset( Fuzzyset * self )
 {
     dnode * dptr = InitDnode();
     cdict * dict = InitCdict();
-    cstring * name = InitCstring( CstrtoStr( self->name ) );
+
+    char * source = CstrtoStr(self->name);
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    cstring * name = str;
+
     clist * List = InitClist( NULL, 0 );
 
     SetClist( &List, self->values );
@@ -44,9 +100,39 @@ cdict * getDictOfFuzzyset( Fuzzyset * self )
 TriangularFuzzyset * InitTriangularFuzzyset( clist * values, char * name )
 {
     TriangularFuzzyset * self = malloc( sizeof(TriangularFuzzyset) );
-    self->shape = InitCstring( "TRIANGULAR" );
+
+    char * source =  "TRIANGULAR";
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->shape = str;
+
     self->values = values;
-    self->name = InitCstring( name );
+
+    self->name = InitCstring(name);
+
     return self;
 }
 
@@ -72,7 +158,34 @@ char * __str__TriangularFuzzyset( TriangularFuzzyset * self )
     char * numStr = NumtoStr( node->number );
     char * TriangularFuzzysetStr = NULL;
 
-    string = InitCstring( CstrtoStr( self->name ) );
+    char * source = CstrtoStr(self->name);
+
+    cstring * str = NULL;
+    i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    string = str;
+
     Cstradd( &string, " - " );
     Cstrcon( &string, self->shape );
     Cstradd( &string, ":\t" );
@@ -92,7 +205,35 @@ cdict * getDictOfTriangularFuzzyset( TriangularFuzzyset * self )
 {
     cdict * dict = InitCdict();
     dnode * dptr = InitDnode();
-    cstring * name = InitCstring( CstrtoStr( self->name ) );
+
+    char * source = CstrtoStr(self->name);
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    cstring * name = str;
+
     clist * List = InitClist( NULL, 0 );
 
     SetClist( &List, self->values );
@@ -199,12 +340,118 @@ TrapezioidalFuzzyset * InitTrapezioidalFuzzyset( clist * values, char * name )
     int orderCount = 4;
 
     TrapezioidalFuzzyset * self = malloc( sizeof(TrapezioidalFuzzyset) );
-    self->name = InitCstring( name );
+
+    char * source = name;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->name = str;
+
     self->shape = InitCstring( "TRAPEZIOIDAL" );
     if ( values->count == orderCount )
     {
         SetClist( &(self->values), values );
-        ClistSort( self->values );
+
+        int count = self->values->count;
+        inode * i1 = NULL;
+        inode * i2 = NULL;
+        inode * i3 = NULL;
+        inode * i4 = NULL;
+        i = 0;
+        int j = 0;
+        int k = 0;
+        float temp = 0;
+        float array[4] = { 0, 0, 0, 0 };
+        int maxi = 3;
+        int maxj = 4;
+
+        switch ( count )
+        {
+        case 2:
+            i1 = self->values->first;
+            i2 = i1->next;
+            if ( i1->number > i2->number )
+            {
+                temp = i1->number;
+                i1->number = i2->number;
+                i2->number = temp;
+            }
+            break;
+        case 3:
+            i1 = self->values->first;
+            i2 = i1->next;
+            i3 = i2->next;
+            if ( i1->number > i2->number )
+            {
+                temp = i1->number;
+                i1->number = i2->number;
+                i2->number = temp;
+            }
+            if ( i1->number > i3->number )
+            {
+                temp = i1->number;
+                i1->number = i3->number;
+                i3->number = temp;
+            }
+            if ( i2->number > i3->number )
+            {
+                temp = i2->number;
+                i2->number = i3->number;
+                i3->number = temp;
+            }
+            break;
+        case 4:
+            i1 = self->values->first;
+            i2 = i1->next;
+            i3 = i2->next;
+            i4 = i3->next;
+            array[0] = i1->number;
+            array[1] = i2->number;
+            array[2] = i3->number;
+            array[3] = i4->number;
+            for ( i = 0; i < maxi; i++ )
+            {
+                k = i;
+                temp = array[i];
+                for ( j = i; j < maxj; j++ )
+                    if ( temp > array[j] )
+                    {
+                        temp = array[j];
+                        k = j;
+                    }
+                array[k] = array[i];
+                array[i] = temp;
+                i1->number = array[0];
+                i2->number = array[1];
+                i3->number = array[2];
+                i4->number = array[3];
+            }
+            break;
+        default:
+            exit(0);
+        }
     }
     return self;
 }
@@ -232,7 +479,34 @@ char * __str__TrapezioidalFuzzyset( TrapezioidalFuzzyset * self )
     char * numStr = NULL;
     char * TrapezioidalFuzzysetStr = NULL;
 
-    string = InitCstring( CstrtoStr( self->name ) );
+    char * source = CstrtoStr(self->name);
+
+    cstring * str = NULL;
+    i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    string = str;
+
     Cstradd( &string, " - " );
     Cstrcon( &string, self->shape );
     Cstradd( &string, ":\t" );
@@ -253,7 +527,35 @@ cdict * getDictOfTrapezioidalFuzzyset( TrapezioidalFuzzyset * self )
 {
     dnode * dptr = InitDnode();
     cdict * dict = InitCdict();
-    cstring * name = InitCstring(NULL);
+
+    char * source = NULL;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    cstring * name = str;
+
     clist * List = InitClist(NULL, 0);
 
     SetCstring( &name, self->name );
@@ -377,7 +679,35 @@ GaussianFuzzySet * InitGaussianFuzzySet( clist * values, char * name )
     inode * secondNode = NULL;
 
     GaussianFuzzySet * self = malloc( sizeof(GaussianFuzzySet) );
-    self->name = InitCstring( name );
+
+    char * source = name;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->name = str;
+
     self->shape = InitCstring( "GAUSSIAN" );
     if ( values->count == orderCount )
     {
@@ -408,7 +738,34 @@ char * __str__GaussianFuzzySet( GaussianFuzzySet * self )
     char * varianceStr = NULL;
     char * GaussianFuzzySetStr = NULL;
 
-    string = InitCstring( CstrtoStr( self->name ) );
+    char * source = CstrtoStr(self->name);
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    string = str;
+
     Cstradd( &string, " - " );
     Cstrcon( &string, self->shape );
     Cstradd( &string, ":\t" );
@@ -431,7 +788,35 @@ cdict * getDictOfGaussianFuzzySet( GaussianFuzzySet * self )
 {
     dnode * dptr = InitDnode();
     cdict * dict = InitCdict();
-    cstring * name = InitCstring(NULL);
+
+    char * source = NULL;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    cstring * name = str;
+
     float array[2] = { 0, 0 };
     clist * values = NULL;
 
@@ -875,7 +1260,35 @@ int editFuzzyset( FuzzyVariable * self, cstring * name, clist * values )
 FuzzyVariable * InitFuzzyVariable( char * name )
 {
     FuzzyVariable * self = malloc( sizeof(FuzzyVariable) );
-    self->name = InitCstring(name);
+
+    char * source = name;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->name = str;
+
     self->max_value = -1;
     self->min_value = -1;
     self->fuzzy_sets = InitFuzzysets();
@@ -977,7 +1390,34 @@ char * __str__FuzzyVariable( FuzzyVariable * self )
     char * maxValueStr = NULL;
     char * FuzzyVariableStr = NULL;
 
-    string = InitCstring( NULL );
+    char * source = NULL;
+
+    cstring * str = NULL;
+    i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    string = str;
+
     SetCstring( &string, self->name );
     Cstradd( &string, ": MIN(" );
     minValueStr = NumtoStr( self->min_value );
@@ -1034,7 +1474,34 @@ FuzzyVariable * InitFuzzyBooleanVariable( char * name )
     clist * tmpClist1 = NULL;
     clist * tmpClist2 = NULL;
 
-    self->name = InitCstring(name);
+    char * source = name;
+
+    cstring * str = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str->first = NULL;
+        str->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str->count = i;
+    }
+
+    self->name = str;
+
     self->max_value = 1;
     self->min_value = 0;
     self->fuzzy_sets = InitFuzzysets();

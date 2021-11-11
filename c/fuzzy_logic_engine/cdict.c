@@ -134,7 +134,34 @@ dnode * DelDnode( cdict * self, int place )
 
 dnode * FindDnode( cdict * self, char * name )
 {
-    cstring * str = InitCstring( name );
+    char * source = name;
+
+    cstring * s = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur1 = NULL;
+
+    s = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        s->first = NULL;
+        s->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        s->first = cur1 = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur1->next = sptr;
+            cur1 = sptr;
+        }
+        s->count = i;
+    }
+
+    cstring * str = s;
+
     dnode * cur = NULL;
     dnode * next = NULL;
 
@@ -307,7 +334,34 @@ void CdictlistSort( cdictlist * self )
 
 char * GetCdictlist( cdictlist * self )
 {
-    cstring * cstr = InitCstring("[");
+    char * source = "[";
+
+    cstring * str1 = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str1 = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str1->first = NULL;
+        str1->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str1->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str1->count = i;
+    }
+
+    cstring * cstr = str1;
+
     cdictnode * dptr = NULL;
     char * str = NULL;
     cdictnode * dptrNext = NULL;
@@ -364,7 +418,34 @@ void CdictdictAddCdictnode( cdictdict * self, cdictnode * ptr )
 
 char * GetCdictdict( cdictdict * self )
 {
-    cstring * cstr = InitCstring("{");
+    char * source = "{";
+
+    cstring * str1 = NULL;
+    int i = 0;
+    snode * sptr = NULL;
+    snode * cur = NULL;
+
+    str1 = malloc( sizeof(cstring) );
+    if ( source == NULL )
+    {
+        str1->first = NULL;
+        str1->count = 0;
+    }
+    else
+    {
+        sptr = InitSnode(source[0]);
+        str1->first = cur = sptr;
+        for ( i = 1; source[i] != '\0'; i++ )
+        {
+            sptr = InitSnode(source[i]);
+            cur->next = sptr;
+            cur = sptr;
+        }
+        str1->count = i;
+    }
+
+    cstring * cstr = str1;
+
     cdictnode * dptr = NULL;
     char * str = NULL;
     cstring * dptrKey = NULL;

@@ -1,0 +1,122 @@
+        -:    0:Source:defuzzification.c
+        -:    0:Programs:7
+        -:    1:#include <stdlib.h>
+        -:    2:#include "defuzzification.h"
+        -:    3:#include "cstring.h"
+        -:    4:#include "clist.h"
+        -:    5:
+    #####:    6:DefuzzyMethod * InitDefuzzyMethod( void )
+        -:    7:{
+    #####:    8:    DefuzzyMethod * self = malloc( sizeof(DefuzzyMethod) );
+    #####:    9:    return self;
+        -:   10:}
+        -:   11:
+    #####:   12:void FreeDefuzzyMethod( DefuzzyMethod * self )
+        -:   13:{
+    #####:   14:    if ( self != NULL )
+        -:   15:    {
+    #####:   16:        free(self);
+    #####:   17:        self = NULL;
+        -:   18:    }
+    #####:   19:    return ;
+        -:   20:}
+        -:   21:
+    #####:   22:DefuzzyCenterOfGravity * InitDefuzzyCenterOfGravity( void )
+        -:   23:{
+    #####:   24:    DefuzzyCenterOfGravity * self = malloc( sizeof(DefuzzyCenterOfGravity) );
+        -:   25:
+    #####:   26:    char * source = "Uses center of gravity to define a crisp value for the fuzzy variable";
+        -:   27:
+    #####:   28:    cstring * str = NULL;
+    #####:   29:    int i = 0;
+    #####:   30:    snode * sptr = NULL;
+    #####:   31:    snode * cur = NULL;
+        -:   32:
+    #####:   33:    str = malloc( sizeof(cstring) );
+    #####:   34:    if ( source == NULL )
+        -:   35:    {
+    #####:   36:        str->first = NULL;
+    #####:   37:        str->count = 0;
+        -:   38:    }
+        -:   39:    else
+        -:   40:    {
+    #####:   41:        sptr = InitSnode(source[0]);
+    #####:   42:        str->first = cur = sptr;
+    #####:   43:        for ( i = 1; source[i] != '\0'; i++ )
+        -:   44:        {
+    #####:   45:            sptr = InitSnode(source[i]);
+    #####:   46:            cur->next = sptr;
+    #####:   47:            cur = sptr;
+        -:   48:        }
+    #####:   49:        str->count = i;
+        -:   50:    }
+        -:   51:
+    #####:   52:    self->description = str;
+        -:   53:
+    #####:   54:    self->type = InitCstring("CENTER OF GRAVITY");
+    #####:   55:    return self;
+        -:   56:}
+        -:   57:
+    #####:   58:void FreeDefuzzyCenterOfGravity( DefuzzyCenterOfGravity * self )
+        -:   59:{
+    #####:   60:    if ( self != NULL )
+        -:   61:    {
+    #####:   62:        FreeCstring(&(self->description));
+    #####:   63:        FreeCstring(&(self->type));
+    #####:   64:        free(self);
+    #####:   65:        self = NULL;
+        -:   66:    }
+    #####:   67:    return ;
+        -:   68:}
+        -:   69:
+    #####:   70:char * getType( DefuzzyCenterOfGravity * d )
+        -:   71:{
+    #####:   72:    return "DefuzzyCenterOfGravity()";
+        -:   73:}
+        -:   74:
+    #####:   75:int CallDefuzzyCenterOfGravity( FuzzyVariable * variable,  cdict * degrees )
+        -:   76:{
+    #####:   77:    clist * center1 = NULL;
+    #####:   78:    clist * center2 = NULL;
+    #####:   79:    dnode * cur = NULL;
+    #####:   80:    fnode * fptr = NULL;
+    #####:   81:    float center_of_gravity = -1;
+    #####:   82:    float area = -1;
+    #####:   83:    float weighted_sum_of_centers = -1;
+    #####:   84:    float weights_sum = -1;
+    #####:   85:    float weighted_avarage = -1;
+        -:   86:
+    #####:   87:    center1 = InitClist(NULL, 0);
+    #####:   88:    center2 = InitClist(NULL, 0);
+    #####:   89:    cur = degrees->first;
+    #####:   90:    for ( cur = degrees->first; cur != NULL; cur = cur->next )
+        -:   91:    {
+    #####:   92:        if ( cur->degree > 0 )
+        -:   93:        {
+    #####:   94:            fptr = FindFnode( variable->fuzzy_sets, cur->name );
+    #####:   95:            if ( fptr->triangular_fuzzy_set != NULL )
+        -:   96:            {
+    #####:   97:                center_of_gravity = center_of_gravity_OfTriangularFuzzyset( fptr->triangular_fuzzy_set, cur->degree );
+    #####:   98:                area = areaOfTriangularFuzzyset( fptr->triangular_fuzzy_set, cur->degree );
+        -:   99:            }
+    #####:  100:            else if ( fptr->trapezioidal_fuzzy_set != NULL )
+        -:  101:            {
+    #####:  102:                center_of_gravity = center_of_gravity_OfTrapezioidalFuzzyset( fptr->trapezioidal_fuzzy_set, cur->degree );
+    #####:  103:                area = areaOfTrapezioidalFuzzyset( fptr->trapezioidal_fuzzy_set, cur->degree );
+        -:  104:            }
+    #####:  105:            ClistAppend( center1, center_of_gravity );
+    #####:  106:            ClistAppend( center2, area );
+        -:  107:        }
+        -:  108:    }
+    #####:  109:    weighted_sum_of_centers = MulSum( center1, center2 );
+    #####:  110:    weights_sum = Sum(center2);
+    #####:  111:    if ( weights_sum != 0 )
+    #####:  112:        weighted_avarage = weighted_sum_of_centers / weights_sum;
+        -:  113:
+    #####:  114:    return weighted_avarage;
+        -:  115:}
+        -:  116:
+    #####:  117:char * __str__DefuzzyCenterOfGravity( DefuzzyCenterOfGravity * d )
+        -:  118:{
+    #####:  119:    return "CENTER OF GRAVITY: Uses center of gravity to define a crisp value for the fuzzy variable";
+        -:  120:}
