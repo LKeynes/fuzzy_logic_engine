@@ -101,37 +101,63 @@ TriangularFuzzyset * InitTriangularFuzzyset( clist * values, char * name )
 {
     TriangularFuzzyset * self = malloc( sizeof(TriangularFuzzyset) );
 
-    char * source =  "TRIANGULAR";
+    char * source1 =  "TRIANGULAR";
 
-    cstring * str = NULL;
-    int i = 0;
-    snode * sptr = NULL;
-    snode * cur = NULL;
+    cstring * str1 = NULL;
+    int i1 = 0;
+    snode * sptr1 = NULL;
+    snode * cur1 = NULL;
 
-    str = malloc( sizeof(cstring) );
-    if ( source == NULL )
+    str1 = malloc( sizeof(cstring) );
+    if ( source1 == NULL )
     {
-        str->first = NULL;
-        str->count = 0;
+        str1->first = NULL;
+        str1->count = 0;
     }
     else
     {
-        sptr = InitSnode(source[0]);
-        str->first = cur = sptr;
-        for ( i = 1; source[i] != '\0'; i++ )
+        sptr1 = InitSnode(source1[0]);
+        str1->first = cur1 = sptr1;
+        for ( i1 = 1; source1[i1] != '\0'; i1++ )
         {
-            sptr = InitSnode(source[i]);
-            cur->next = sptr;
-            cur = sptr;
+            sptr1 = InitSnode(source1[i1]);
+            cur1->next = sptr1;
+            cur1 = sptr1;
         }
-        str->count = i;
+        str1->count = i1;
     }
 
-    self->shape = str;
+    self->shape = str1;
 
     self->values = values;
 
-    self->name = InitCstring(name);
+    char * source2 =  name;
+
+    cstring * str2 = NULL;
+    int i2 = 0;
+    snode * sptr2 = NULL;
+    snode * cur2 = NULL;
+
+    str2 = malloc( sizeof(cstring) );
+    if ( source2 == NULL )
+    {
+        str2->first = NULL;
+        str2->count = 0;
+    }
+    else
+    {
+        sptr2 = InitSnode(source2[0]);
+        str2->first = cur2 = sptr2;
+        for ( i2 = 1; source2[i2] != '\0'; i2++ )
+        {
+            sptr2 = InitSnode(source2[i2]);
+            cur2->next = sptr2;
+            cur2 = sptr2;
+        }
+        str2->count = i2;
+    }
+
+    self->name = str2;
 
     return self;
 }
@@ -341,35 +367,62 @@ TrapezioidalFuzzyset * InitTrapezioidalFuzzyset( clist * values, char * name )
 
     TrapezioidalFuzzyset * self = malloc( sizeof(TrapezioidalFuzzyset) );
 
-    char * source = name;
+    char * source1 = name;
 
-    cstring * str = NULL;
-    int i = 0;
-    snode * sptr = NULL;
-    snode * cur = NULL;
+    cstring * str1 = NULL;
+    int i1 = 0;
+    snode * sptr1 = NULL;
+    snode * cur1 = NULL;
 
-    str = malloc( sizeof(cstring) );
-    if ( source == NULL )
+    str1 = malloc( sizeof(cstring) );
+    if ( source1 == NULL )
     {
-        str->first = NULL;
-        str->count = 0;
+        str1->first = NULL;
+        str1->count = 0;
     }
     else
     {
-        sptr = InitSnode(source[0]);
-        str->first = cur = sptr;
-        for ( i = 1; source[i] != '\0'; i++ )
+        sptr1 = InitSnode(source1[0]);
+        str1->first = cur1 = sptr1;
+        for ( i1 = 1; source1[i1] != '\0'; i1++ )
         {
-            sptr = InitSnode(source[i]);
-            cur->next = sptr;
-            cur = sptr;
+            sptr1 = InitSnode(source1[i1]);
+            cur1->next = sptr1;
+            cur1 = sptr1;
         }
-        str->count = i;
+        str1->count = i1;
     }
 
-    self->name = str;
+    self->name = str1;
 
-    self->shape = InitCstring( "TRAPEZIOIDAL" );
+    char * source2 = "TRAPEZIOIDAL";
+
+    cstring * str2 = NULL;
+    int i2 = 0;
+    snode * sptr2 = NULL;
+    snode * cur2 = NULL;
+
+    str2 = malloc( sizeof(cstring) );
+    if ( source2 == NULL )
+    {
+        str2->first = NULL;
+        str2->count = 0;
+    }
+    else
+    {
+        sptr2 = InitSnode(source2[0]);
+        str2->first = cur2 = sptr2;
+        for ( i2 = 1; source2[i2] != '\0'; i2++ )
+        {
+            sptr2 = InitSnode(source2[i2]);
+            cur2->next = sptr2;
+            cur2 = sptr2;
+        }
+        str2->count = i2;
+    }
+
+    self->shape = str2;
+
     if ( values->count == orderCount )
     {
         SetClist( &(self->values), values );
@@ -379,7 +432,7 @@ TrapezioidalFuzzyset * InitTrapezioidalFuzzyset( clist * values, char * name )
         inode * i2 = NULL;
         inode * i3 = NULL;
         inode * i4 = NULL;
-        i = 0;
+        int i = 0;
         int j = 0;
         int k = 0;
         float temp = 0;
@@ -680,35 +733,62 @@ GaussianFuzzySet * InitGaussianFuzzySet( clist * values, char * name )
 
     GaussianFuzzySet * self = malloc( sizeof(GaussianFuzzySet) );
 
-    char * source = name;
+    char * source1 = name;
 
-    cstring * str = NULL;
-    int i = 0;
-    snode * sptr = NULL;
-    snode * cur = NULL;
+    cstring * str1 = NULL;
+    int i1 = 0;
+    snode * sptr1 = NULL;
+    snode * cur1 = NULL;
 
-    str = malloc( sizeof(cstring) );
-    if ( source == NULL )
+    str1 = malloc( sizeof(cstring) );
+    if ( source1 == NULL )
     {
-        str->first = NULL;
-        str->count = 0;
+        str1->first = NULL;
+        str1->count = 0;
     }
     else
     {
-        sptr = InitSnode(source[0]);
-        str->first = cur = sptr;
-        for ( i = 1; source[i] != '\0'; i++ )
+        sptr1 = InitSnode(source1[0]);
+        str1->first = cur1 = sptr1;
+        for ( i1 = 1; source1[i1] != '\0'; i1++ )
         {
-            sptr = InitSnode(source[i]);
-            cur->next = sptr;
-            cur = sptr;
+            sptr1 = InitSnode(source1[i1]);
+            cur1->next = sptr1;
+            cur1 = sptr1;
         }
-        str->count = i;
+        str1->count = i1;
     }
 
-    self->name = str;
+    self->name = str1;
 
-    self->shape = InitCstring( "GAUSSIAN" );
+    char * source2 = "GAUSSIAN";
+
+    cstring * str2 = NULL;
+    int i2 = 0;
+    snode * sptr2 = NULL;
+    snode * cur2 = NULL;
+
+    str2 = malloc( sizeof(cstring) );
+    if ( source2 == NULL )
+    {
+        str2->first = NULL;
+        str2->count = 0;
+    }
+    else
+    {
+        sptr2 = InitSnode(source2[0]);
+        str2->first = cur2 = sptr2;
+        for ( i2 = 1; source2[i2] != '\0'; i2++ )
+        {
+            sptr2 = InitSnode(source2[i2]);
+            cur2->next = sptr2;
+            cur2 = sptr2;
+        }
+        str2->count = i2;
+    }
+
+    self->shape = str2;
+
     if ( values->count == orderCount )
     {
         firstNode = values->first;

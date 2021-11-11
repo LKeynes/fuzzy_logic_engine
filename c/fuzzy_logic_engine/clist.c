@@ -279,7 +279,34 @@ float GetInodeNum( clist * self, int key )
 
 char * GetClist( clist * self )
 {
-    cstring * cstr = InitCstring( "[" );
+    char * source1 = "[";
+
+    cstring * str1 = NULL;
+    int i1 = 0;
+    snode * sptr1 = NULL;
+    snode * cur1 = NULL;
+
+    str1 = malloc( sizeof(cstring) );
+    if ( source1 == NULL )
+    {
+        str1->first = NULL;
+        str1->count = 0;
+    }
+    else
+    {
+        sptr1 = InitSnode(source1[0]);
+        str1->first = cur1 = sptr1;
+        for ( i1 = 1; source1[i1] != '\0'; i1++ )
+        {
+            sptr1 = InitSnode(source1[i1]);
+            cur1->next = sptr1;
+            cur1 = sptr1;
+        }
+        str1->count = i1;
+    }
+
+    cstring * cstr = str1;
+
     char * str = NULL;
     int i = 0;
     int count = self->count;
